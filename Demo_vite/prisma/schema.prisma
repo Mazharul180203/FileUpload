@@ -13,7 +13,8 @@ model user {
   password  String
   role      String
   createdAt DateTime  @default(now())
-  details   details[] // One-to-many relationship
+  details   details[]
+  files     files[]
 }
 
 model details {
@@ -21,14 +22,13 @@ model details {
   user      user     @relation(fields: [userId], references: [id])
   userId    Int
   name      String
-  files     files[]
   createdAt DateTime @default(now())
 }
 
 model files {
   id        Int      @id @default(autoincrement())
-  details   details  @relation(fields: [detailsId], references: [id])
-  detailsId Int
+  user      user     @relation(fields: [userId], references: [id])
+  userId    Int
   files     String
   createdAt DateTime @default(now())
 }
