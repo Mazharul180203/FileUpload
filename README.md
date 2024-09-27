@@ -1,12 +1,9 @@
-# DiFile Upload with Express.js and Prisma
+# File Upload with Express.js and Prisma
 ##### This project demonstrates how to upload files using express-fileupload and store file paths in a MySQL database using Prisma ORM. The project includes a simple API for handling file uploads, saving the files on the server, and storing the file paths in a database.
 
 ###
 ###
 ##
-
-
-
 
 ## Features
 
@@ -21,27 +18,34 @@ Ensure you have the following installed:
 - MySQL Server
 - Prisma CLI
 - Express.js
+
+
 ## Getting Started
 1.Clone the repository:
+
 ```sh
 git clone https://github.com/your-username/file-upload-prisma.git
 cd file-upload-prisma
 ```
 2. Install Dependencies:
+
 ```sh
 npm install
 ```
 3. Set Up MySQL Database:
+
 ```sh
 DATABASE_URL="mysql://user:password@localhost:3306/mydatabase"
 ```
 4. Set Up Prisma:
+
    Generate the Prisma client by running the following command:
 ```sh
 npx prisma migrate dev --name init
 npx prisma generate
 ```
 5. Running the Project:
+
 ```sh
 npm run dev
 ```
