@@ -42,6 +42,7 @@ app.use('/api/v1', router);
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3000 });
 app.use(limiter);
 app.use(express.static('client/dist'));
+app.use(express.static(path.join(__dirname, "uploadFile")));// this will hwlp to accessfile
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
 });
