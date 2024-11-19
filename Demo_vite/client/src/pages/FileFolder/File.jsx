@@ -12,13 +12,10 @@ const FileUpload = () => {
         try {
             const formData = new FormData();
 
-            // Append each file individually to formData
             for (let i = 0; i < files.length; i++) {
-                formData.append('files', files[i]); // Use 'files' as the key (or any appropriate key that your backend expects)
+                formData.append('files', files[i]);
             }
-
-            console.log("FormData content:", formData.getAll('files')); // Debugging line to check FormData content
-
+            console.log("FormData content:", formData.getAll('files'));
             const res = await axios.post(`${BASE_URL}/api/v1/uploadFile`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' },
