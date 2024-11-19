@@ -4,26 +4,31 @@ import { toast } from 'react-hot-toast';
 import { BASE_URL } from "../../../../config.js";
 
 const FileUpload = () => {
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const formData = new FormData(e.target);
+            const formData = new FormData();
 
-            console.log("Uploading file:", formData.get('files'));
+            // Append each file individually to formData
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]); // Use 'files' as the key (or any appropriate key that your backend expects)
+            }
+
+            console.log("FormData content:", formData.getAll('files')); // Debugging line to check FormData content
 
             const res = await axios.post(`${BASE_URL}/api/v1/uploadFile`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
-            if(res.data['status'] === "success"){
-                toast.success("File uploaded successfully!");
+            if(res.data.status === "success") {
+                toast.success("Files uploaded successfully!");
             }
 
-            setFile(null);
+            setFiles([]);
         } catch (e) {
             toast.error("Something went wrong!");
             console.error(e);
@@ -32,12 +37,12 @@ const FileUpload = () => {
 
     return (
         <div className="container mt-5 p-4 shadow-lg bg-light rounded">
-            <h2 className="mb-4 text-center text-success">Upload Your File</h2>
+            <h2 className="mb-4 text-center text-success">Upload Your Files</h2>
             <form onSubmit={handleSubmit} className="p-4">
                 <div className="row mb-3">
                     <div className="col-md-8 mx-auto">
                         <label className="form-label" htmlFor="fileInput">
-                            <strong>Choose a file</strong>
+                            <strong>Choose files</strong>
                         </label>
                         <div className="input-group">
                             <input
@@ -45,7 +50,8 @@ const FileUpload = () => {
                                 id="fileInput"
                                 type="file"
                                 className="form-control form-control-lg"
-                                onChange={(e) => setFile(e.target.files[0])}
+                                onChange={(e) => setFiles(e.target.files)}
+                                multiple
                             />
                             <span className="input-group-text" id="fileAddon">
                                 <i className="fas fa-upload"></i>
@@ -62,7 +68,7 @@ const FileUpload = () => {
                         <button
                             type="submit"
                             className="btn btn-success btn-lg px-4"
-                            disabled={!file}
+                            disabled={files.length === 0}
                         >
                             <i className="fas fa-paper-plane me-2"></i>Submit
                         </button>
